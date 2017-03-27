@@ -8,10 +8,22 @@
     git: repo="https://github.com/elaviv/spring-petclinic.git" dest=~/petclinic
   - name: clone ciscocd
     git: repo="https://github.com/elaviv/ciscocd.git" dest=~/ciscocd update=no
-  - name: download maven
-    get_url: url=http://www-us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz  dest=~/maven.tar.gz
-  - name: extract maven
-    unarchive: src=~/maven.tar.gz  dest=~/
+#  - name: download maven
+#    get_url: url=http://www-us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz  dest=~/maven.tar.gz
+#  - name: extract maven
+#    unarchive: src=~/maven.tar.gz  dest=~/
+  - name: install docker
+    yum: name=docker state=latest
+    become: yes
+    become_method: sudo
+  - name: add ec2-user to docker group  
+    user: name=ec2-user groups=docker append=yes
+    become: yes
+    become_method: sudo
+  - name: start docker
+    service: name=docker state=started
+    become: yes
+    become_method: sudo
 
 
     
